@@ -1,0 +1,17 @@
+length: 1000000
+columns:
+  - name: 'I_MSISDN'
+    type: int64
+    params:
+      min: 9999999990
+      max: 9999999999
+  - name: 'I_RECHARGE_AMOUNT'
+    type: int64
+    params:
+      min: 120
+      max: 150
+  - name: 'SEQUNCE'
+    type: int64
+    params:
+      min: 0
+      max: 10
