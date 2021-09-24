@@ -30,6 +30,18 @@ run via
 ```
 python generator.py examples/financial.yaml -o /root/dummydata/result2.csv
 ```
+
+build as a debian app
+
+cd data_faker   (the folder contains setup.py)
+```
+pip install .
+```
+then 
+```
+datafaker examples/financial.yaml -o /root/dummydata/result2.csv
+```
+
 ## Authors
 
 * **subin soman** - *Initial work* - [subinsoman](https://github.com/subinsoman)
