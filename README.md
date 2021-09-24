@@ -27,9 +27,9 @@ columns:
 ```
 run via 
 
-'''python generator.py examples/financial.yaml -o /root/dummydata/result2.csv
-
-'''
+```
+python generator.py examples/financial.yaml -o /root/dummydata/result2.csv
+```
 ## Authors
 
 * **subin soman** - *Initial work* - [subinsoman](https://github.com/subinsoman)
