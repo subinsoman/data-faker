@@ -10,7 +10,7 @@ from faker import Factory
 from faker.providers.date_time import Provider as date_provider
 from faker.providers.currency import Provider as currency_provider
 from dateutil import parser
-
+from faker import Faker
 
 class ConfigurationException(Exception):
     def __init__(self, message, conf_file):
@@ -58,7 +58,7 @@ def _generate_gaussian(column, dtype, length):
         if np.issubdtype(dtype, np.integer):
             _min = _min if _min is not None else np.iinfo(dtype).min
             _max = _max if _max is not None else np.iinfo(dtype).max
-        elif np.issubdtype(dtype, np.float):
+        elif np.issubdtype(dtype, np.float64):
             _min = _min if _min is not None else np.finfo(dtype).min
             _max = _max if _max is not None else np.finfo(dtype).max
         else:
@@ -273,6 +273,7 @@ def generate_pandas(conf_file):
     length = _get_param(conf, 'length', 0)
     columns = _get_param(conf, 'columns')
     data = OrderedDict()
+    fake=Faker()
     for column in columns:
         _label = _get_param(column, 'name')
         _type = _get_param(column, 'type')
@@ -292,11 +293,11 @@ def generate_pandas(conf_file):
             _to = parser.parse(_params['to']) if _params and _params.get('to') is not None else datetime.now()
             _from = parser.parse(_params['from']) if _params and _params.get('from') is not None else _to
             _pattern = _get_param(_params, 'pattern', '%Y-%m-%d')
-            data[_label] = [date_provider.date_time_between_dates(_from, _to).strftime(_pattern) for i in range(length)]
+            data[_label] = [ fake.date_time_between_dates(_from, _to).strftime(_pattern) for i in range(length)]
         elif _type == 'time':
             _params = column['params']
             _pattern = _get_param(_params, 'pattern', '%H:%M:%S')
-            data[_label] = [date_provider.time(pattern=_pattern) for i in range(length)]
+            data[_label] = [fake.time(pattern=_pattern,end_datetime=None) for i in range(length)]
         elif _type == 'currency':
             _params = _get_param(column, 'params')
             if _params:
@@ -344,6 +345,7 @@ def generate_pandas(conf_file):
             series = _generate_distribution(column, length, _type)
             if series is not None:
                 data[_label] = series
+    fake=None            
     return pd.DataFrame(data)
 
 
@@ -375,11 +377,11 @@ def main(argv=None):
     if len(args.specification) != 1:
         print("Error: dataset specification YAML file is not specified")
     else:
-        print('Generating dataset...')
+        print('Generating dataset...'+str(args.specification[0])+'  '+str(args.output_file))
         generate(args.specification[0], args.output_file)
 
 
 if __name__ == "__main__":
-    # main(sys.argv[1:])
-    generate('/home/subin/PythonIDE/workspace/data-faker-master/data_faker/examples/pivotfile.yaml',
-             "/home/subin/Desktop/sorry11.csv")
+    main(sys.argv[1:])
+    #generate('/root/data-faker/data_faker/examples/financial.yaml',
+            # "/root/dummydata/load.csv")
