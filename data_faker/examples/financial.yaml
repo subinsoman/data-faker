@@ -1,4 +1,4 @@
-length: 1
+length: 1000000
 columns:
   - name: 'ID'
     type: int32
@@ -115,7 +115,9 @@ columns:
     params:
       as_int: False
   - name: 'DATE'
-    type: time
+    type: date
     params:
-      format: '%H:%M:%S'
-output: 'result.csv'
+      from: '2010-01-01'
+      to: '2021-09-21'
+      pattern: '%Y/%m/%d'   
+output: '/root/dummydata/result.csv'
