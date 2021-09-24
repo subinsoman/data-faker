@@ -367,18 +367,18 @@ def generate(conf_file, output_file):
     else:
         print(df)
 
-
 def main(argv=None):
     parser = ArgumentParser(description='Generate artificial datasets which can be used for machine learning tasks')
     parser.add_argument('-o', '--output-file', required=False,
                         help='Output CSV file; overrides the one which is given in the specification')
-    parser.add_argument("specification", nargs=1)
+    parser.add_argument("specification", nargs=1,help='input specification .yaml file path')
     args = parser.parse_args()
     if len(args.specification) != 1:
         print("Error: dataset specification YAML file is not specified")
     else:
         print('Generating dataset...'+str(args.specification[0])+'  '+str(args.output_file))
         generate(args.specification[0], args.output_file)
+
 
 
 if __name__ == "__main__":
